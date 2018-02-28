@@ -14,7 +14,9 @@
         var $animalElements = $('#gif-buttons');
         
         animals.forEach(function (animal) {
-            $animalElements.append('<button type="button" class="btn btn-default">' + animal + '</button>');
+            $animalElements.append(`<button type="button" class="animal-button 
+                slight-right-margin sligh-left-margin slight-top-margin">` + 
+                animal + '</button>');
         });
     }
 

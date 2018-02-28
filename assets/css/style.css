@@ -1,11 +1,21 @@
 /* overriding bootstraps btn-default class */
-button.btn-default, a.btn-default {
+button.animal-button, a.animal-button {
     background-color: #4aaaa5;
     color: #fff;
+    border: 1px solid #4aaaa5;
+    border-radius: 5px;
 }
 
 .slight-top-margin {
     margin-top: 5px;
+}
+
+.slight-right-margin {
+    margin-right: 5px;
+}
+
+.slight-left-margin {
+    margin-left: 5px;
 }
 
 #search-text-box {
