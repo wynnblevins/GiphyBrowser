@@ -1,0 +1,13 @@
+/* overriding bootstraps btn-default class */
+button.btn-default, a.btn-default {
+    background-color: #4aaaa5;
+    color: #fff;
+}
+
+.slight-top-margin {
+    margin-top: 5px;
+}
+
+#search-text-box {
+
+}

@@ -10,7 +10,30 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
+<body class="container-fluid">
+    <div class="row">
+        <!-- Initially populate with a static list of gif subjects using jquery-->
+        <div id="gif-buttons" class="col-xs-12"></div>
+    </div>
+    <div class="row">
+        <!-- Put results of search here -->
+        <div id="search-results" class="col-md-8 col-sm-6">
+
+        </div>
+
+        <div id="search-results" class="col-md-4 col-sm-6">
+            <!-- Put page controls here (search box, submit button, etc.)-->
+            <form class="form-horizontal">
+                <!-- Form Name -->
+                <legend>Add an animal</legend>
+                <label class="col-sm-12 control-label" for="addAnimalInput"></label>  
+                <input id="add-animal-input" name="addAnimalInput" type="text" 
+                    placeholder="Add An Animal" class="form-control input-md">
+                <button class="btn btn-default slight-top-margin">Submit</button>
+            </form>
+        </div>
+    </div>
+    
     <script type="text/javascript" src="assets/js/giphy-browser.js"></script>
     <script src="http://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
