@@ -1,5 +1,5 @@
 /* overriding bootstraps btn-default class */
-button.animal-button, a.animal-button {
+button.animal-button, a.animal-button, #submit-button {
     background-color: #4aaaa5;
     color: #fff;
     border: 1px solid #4aaaa5;
@@ -16,8 +16,4 @@ button.animal-button, a.animal-button {
 
 .slight-left-margin {
     margin-left: 5px;
-}
-
-#search-text-box {
-
 }
