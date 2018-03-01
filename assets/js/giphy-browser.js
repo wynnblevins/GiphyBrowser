@@ -3,16 +3,52 @@
 $(document).ready(function () {
     var BASE_URL = 'https://api.giphy.com/v1/gifs/search?q=';
     var API_KEY = '&api_key=Sa9egT2O8QKTXw9j87UZM9BcTQ5NxjMv';
-    var animals = ['Squirrel', 'Cat', 'Dog', 'Crab', 'Chimpanzee', 'Aligator',
-        'Rat', 'Turtle', 'Snake', 'Penguin', 'Ostrich', 'Zebra', 'Skunk', 
-        'Pig', 'Gorilla', 'Shark', 'Blue Whale', 'Aardvark', 'Cow', 'Horse', 
-        'Antelope', 'Lion', 'Tiger', 'Bear', 'Velocorapter', 'Eagle', 'Sheep',
-        'Yeti', 'Jackalope', 'Sasquatch', 'Chupacabra', 'Baboon', 'Ermine', 'Fox',
-        'Hedgehog', 'Iguana', 'Jackrabbit', 'Killer Whale', 'Lemur', 'Mongoose'
+    
+    var animals = [
+        { name: 'Squirrel' }, 
+        { name: 'Cat' }, 
+        { name: 'Dog' }, 
+        { name: 'Crab' }, 
+        { name: 'Chimpanzee' }, 
+        { name: 'Alligator' },
+        { name: 'Rat' }, 
+        { name: 'Turtle' }, 
+        { name: 'Snake' }, 
+        { name: 'Penguin' }, 
+        { name: 'Ostrich' }, 
+        { name: 'Zebra' }, 
+        { name: 'Skunk' }, 
+        { name: 'Pig' }, 
+        { name: 'Gorilla' }, 
+        { name: 'Shark' }, 
+        { name: 'Blue Whale' }, 
+        { name: 'Aardvark' }, 
+        { name: 'Cow' }, 
+        { name: 'Horse' }, 
+        { name: 'Antelope' }, 
+        { name: 'Lion' }, 
+        { name: 'Tiger' }, 
+        { name: 'Bear' }, 
+        { name: 'Velocirapter' }, 
+        { name: 'Eagle' }, 
+        { name: 'Sheep' },
+        { name: 'Yeti' }, 
+        { name: 'Jackalope' }, 
+        { name: 'Sasquatch' }, 
+        { name: 'Chupacabra' }, 
+        { name: 'Baboon' }, 
+        { name: 'Ermine' }, 
+        { name: 'Fox' },
+        { name: 'Hedgehog' }, 
+        { name: 'Iguana' }, 
+        { name: 'Jackrabbit' }, 
+        { name: 'Killer Whale' }, 
+        { name: 'Lemur' }, 
+        { name: 'Mongoose' }
     ];
 
-    function createRowDiv() {
-        return $('<div class="row"></div>');
+    function createGifRowDiv() {
+        return $('<div class="row result-row"></div>');
     }
 
     function onDataReturn(responseData) {
@@ -20,7 +56,7 @@ $(document).ready(function () {
         
         for (var i = 0; i < responseData.data.length; i++) {
             if (i % 4 === 0) {
-                row = createRowDiv();
+                row = createGifRowDiv();
                 $('#search-results').append(row);
             }
         
@@ -34,27 +70,25 @@ $(document).ready(function () {
         }
     }
 
-    function createURL(searchString) {
-        return BASE_URL + searchString + API_KEY;
-    }
-
     function initAnimals() {
         var $animalElements = $('#gif-buttons');
         
         animals.forEach(function (animal) {
             $animalElements.append(`<button type="button" class="animal-button 
                 slight-right-margin sligh-left-margin slight-top-margin">` + 
-                animal + '</button>');
+                animal.name + '</button>');
         });
     }
 
-    $('#submit-button').click(function () {
-        // get url 
-        var searchString = $('#add-animal-input').val();
-        
-        // format it the way giphy likes
-        var url = createURL(searchString);
+    function clearAllResultRows() {
+        $('#search-results > div.row.result-row').remove();
+    }
 
+    function createURL(searchString) {
+        return BASE_URL + searchString + API_KEY;
+    }
+
+    function doGifSearch(url) {
         $.ajax({ 
             type: "GET",
             dataType: "json",
@@ -66,6 +100,27 @@ $(document).ready(function () {
                 alert('Unable to grab gifs :-(');
             }
         });
+    }
+
+    $(document).on('click', 'button.animal-button', function () {
+        // clear previous search results from screen
+        clearAllResultRows();
+
+        var searchString = this.textContent;
+        var url = createURL(searchString);
+        doGifSearch(url);
+    });
+
+    $('#submit-button').click(function () {
+        // clear previous search results from screen
+        clearAllResultRows();
+
+        // get url search string value
+        var searchString = $('#add-animal-input').val();
+        
+        // format it the way giphy likes
+        var url = createURL(searchString);
+        doGifSearch(url);
     });
 
     initAnimals();
