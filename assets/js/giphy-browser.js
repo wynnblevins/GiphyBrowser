@@ -64,7 +64,7 @@ $(document).ready(function () {
                 responseData.data[i].rating + '</h4><div>');
             row.append($col);
             
-            imageString = '<img class="img-responsive" src="' + 
+            imageString = '<img class="img-responsive result-img" src="' + 
             responseData.data[i].images.fixed_height_still.url + '"/>'
             $col.append(imageString);
         }
@@ -94,6 +94,7 @@ $(document).ready(function () {
             dataType: "json",
             url: url,
             success: function(data) {        
+                console.log(data);
                 onDataReturn(data);
             }, 
             error: function () {
@@ -101,6 +102,11 @@ $(document).ready(function () {
             }
         });
     }
+
+    $(document).on('click', '.result-img', function () {
+        // TODO: replace contents of function with logic to make gif start/stop
+        console.log(this.src);
+    });
 
     $(document).on('click', 'button.animal-button', function () {
         // clear previous search results from screen
