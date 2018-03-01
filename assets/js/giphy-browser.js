@@ -55,12 +55,12 @@ $(document).ready(function () {
         var gifData = null, imageString = null, row = null;
         
         for (var i = 0; i < responseData.data.length; i++) {
-            if (i % 4 === 0) {
+            if (i % 3 === 0) {
                 row = createGifRowDiv();
                 $('#search-results').append(row);
             }
         
-            var $col = $('<div class="col-sm-3"><div>');
+            var $col = $('<div class="col-sm-4"><div>');
             row.append($col);
             
             imageString = '<img class="img-responsive" src="' + 
