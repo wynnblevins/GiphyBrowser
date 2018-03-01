@@ -60,12 +60,12 @@ $(document).ready(function () {
                 $('#search-results').append(row);
             }
         
-            var $col = $('<div class="col-sm-4"><div>');
+            var $col = $('<div class="col-sm-4"><h4 class="rating">Rating: ' + 
+                responseData.data[i].rating + '</h4><div>');
             row.append($col);
             
             imageString = '<img class="img-responsive" src="' + 
             responseData.data[i].images.fixed_height_still.url + '"/>'
-        
             $col.append(imageString);
         }
     }
@@ -93,7 +93,7 @@ $(document).ready(function () {
             type: "GET",
             dataType: "json",
             url: url,
-            success: function(data){        
+            success: function(data) {        
                 onDataReturn(data);
             }, 
             error: function () {
