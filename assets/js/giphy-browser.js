@@ -3,6 +3,7 @@
 $(document).ready(function () {
     var BASE_URL = 'https://api.giphy.com/v1/gifs/search?q=';
     var API_KEY = '&api_key=Sa9egT2O8QKTXw9j87UZM9BcTQ5NxjMv';
+    var globalResponseData = null;
     
     var animals = [
         { name: 'Squirrel' }, 
@@ -28,16 +29,10 @@ $(document).ready(function () {
         { name: 'Antelope' }, 
         { name: 'Lion' }, 
         { name: 'Tiger' }, 
-        { name: 'Bear' }, 
-        { name: 'Velocirapter' }, 
+        { name: 'Bear' },  
         { name: 'Eagle' }, 
         { name: 'Sheep' },
-        { name: 'Yeti' }, 
-        { name: 'Jackalope' }, 
-        { name: 'Sasquatch' }, 
-        { name: 'Chupacabra' }, 
         { name: 'Baboon' }, 
-        { name: 'Ermine' }, 
         { name: 'Fox' },
         { name: 'Hedgehog' }, 
         { name: 'Iguana' }, 
@@ -46,13 +41,15 @@ $(document).ready(function () {
         { name: 'Lemur' }, 
         { name: 'Mongoose' }
     ];
-
+    
     function createGifRowDiv() {
         return $('<div class="row result-row"></div>');
     }
 
     function onDataReturn(responseData) {
         var gifData = null, imageString = null, row = null;
+        
+        globalResponseData = responseData; // save response data in global for later use
         
         for (var i = 0; i < responseData.data.length; i++) {
             if (i % 3 === 0) {
@@ -93,9 +90,9 @@ $(document).ready(function () {
             type: "GET",
             dataType: "json",
             url: url,
-            success: function(data) {        
-                console.log(data);
+            success: function(data) {
                 onDataReturn(data);
+                console.log(data);
             }, 
             error: function () {
                 alert('Unable to grab gifs :-(');
@@ -103,9 +100,49 @@ $(document).ready(function () {
         });
     }
 
+    function isStillImg(imagePath) {
+        if (imagePath.endsWith('s.gif')) {
+            return true;
+        }
+        return false;
+    }
+
+    function getCurrentImgNdx($currentImage) {
+        for (var i = 0; i < globalResponseData.data.length; i++) {
+            var responseData = globalResponseData.data[i];
+            if ($currentImage.attr('src') === responseData.images.fixed_height_still.url || 
+                $currentImage.attr('src') === responseData.images.fixed_height.url) {
+                return i;
+            }
+        }
+    }
+
+    function gifIsPlaying($clickedImg) {
+        if (isStillImg($clickedImg[0].src)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function switchGifFiles($clickedImg) {
+        var ndx = getCurrentImgNdx($clickedImg);
+        var responseData = globalResponseData.data[ndx]; 
+
+        if (gifIsPlaying($clickedImg)) { 
+            console.log('setting gif to still gif');
+            // set gif to be non animated gif
+            $clickedImg.attr('src', responseData.images.fixed_height_still.url); 
+        } else {
+            console.log('setting gif to animated gif');
+            // set gif to be animated gif
+            $clickedImg.attr('src', responseData.images.fixed_height.url);
+        }
+    }
+
     $(document).on('click', '.result-img', function () {
-        // TODO: replace contents of function with logic to make gif start/stop
-        console.log(this.src);
+        var $clickedImg = $(this); 
+        switchGifFiles($clickedImg);
     });
 
     $(document).on('click', 'button.animal-button', function () {
@@ -126,8 +163,19 @@ $(document).ready(function () {
         
         // format it the way giphy likes
         var url = createURL(searchString);
+
+        // TODO append new animal button to page
+
         doGifSearch(url);
     });
+
+    // found this code on stack overflow here, included for people using old browsers: 
+    // https://stackoverflow.com/questions/280634/endswith-in-javascript
+    if (typeof String.prototype.endsWith !== 'function') {
+        String.prototype.endsWith = function(suffix) {
+            return this.indexOf(suffix, this.length - suffix.length) !== -1;
+        };
+    }
 
     initAnimals();
 });
