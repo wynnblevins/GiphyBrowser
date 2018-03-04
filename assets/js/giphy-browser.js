@@ -3,8 +3,9 @@
 $(document).ready(function () {
     var BASE_URL = 'https://api.giphy.com/v1/gifs/search?q=';
     var API_KEY = '&api_key=Sa9egT2O8QKTXw9j87UZM9BcTQ5NxjMv';
+    var LIMIT = '&limit=10'
     var globalResponseData = null;
-    
+        
     var animals = [
         { name: 'Squirrel' }, 
         { name: 'Cat' }, 
@@ -86,7 +87,7 @@ $(document).ready(function () {
     }
 
     function createURL(searchString) {
-        return BASE_URL + searchString + API_KEY;
+        return BASE_URL + searchString + API_KEY + LIMIT;
     }
 
     function doGifSearch(url) {
@@ -134,11 +135,9 @@ $(document).ready(function () {
         var responseData = globalResponseData.data[ndx]; 
 
         if (gifIsPlaying($clickedImg)) { 
-            console.log('setting gif to still gif');
             // set gif to be non animated gif
             $clickedImg.attr('src', responseData.images.fixed_height_still.url); 
         } else {
-            console.log('setting gif to animated gif');
             // set gif to be animated gif
             $clickedImg.attr('src', responseData.images.fixed_height.url);
         }
@@ -172,7 +171,6 @@ $(document).ready(function () {
         $('div#gif-buttons').append(createButtonStr(animalObj));
         doGifSearch(url);
     });
-
 
     initAnimals();
 });
