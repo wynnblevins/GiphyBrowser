@@ -67,13 +67,17 @@ $(document).ready(function () {
         }
     }
 
+    function createButtonStr(animal) {
+        return `<button type="button" class="animal-button 
+                slight-right-margin sligh-left-margin slight-top-margin">` + 
+                animal.name + '</button>'
+    }
+
     function initAnimals() {
         var $animalElements = $('#gif-buttons');
         
         animals.forEach(function (animal) {
-            $animalElements.append(`<button type="button" class="animal-button 
-                slight-right-margin sligh-left-margin slight-top-margin">` + 
-                animal.name + '</button>');
+            $animalElements.append(createButtonStr(animal));
         });
     }
 
@@ -160,26 +164,15 @@ $(document).ready(function () {
 
         // get url search string value
         var searchString = $('#add-animal-input').val();
-        
+        var animalObj = {name: searchString};
         // format it the way giphy likes
         var url = createURL(searchString);
 
-        var animal = { name: searchString };
-
         // TODO append new animal button to page
-        $('div#gif-buttons').append(`<button type="button" class="animal-button 
-            slight-right-margin sligh-left-margin slight-top-margin">` + 
-            animal.name + '</button>');
+        $('div#gif-buttons').append(createButtonStr(animalObj));
         doGifSearch(url);
     });
 
-    // found this code on stack overflow here, included for people using old browsers: 
-    // https://stackoverflow.com/questions/280634/endswith-in-javascript
-    if (typeof String.prototype.endsWith !== 'function') {
-        String.prototype.endsWith = function(suffix) {
-            return this.indexOf(suffix, this.length - suffix.length) !== -1;
-        };
-    }
 
     initAnimals();
 });
