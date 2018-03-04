@@ -58,20 +58,19 @@ $(document).ready(function () {
                 $('#search-results').append(row);
             }
         
-            var $col = $('<div class="col-sm-4"><h4 class="rating">Rating: ' + 
+            var $col = $('<div class="col-xs-4"><h4 class="rating">Rating: ' + 
                 responseData.data[i].rating + '</h4><div>');
             row.append($col);
             
             imageString = '<img class="img-responsive result-img" src="' + 
-            responseData.data[i].images.fixed_height_still.url + '"/>'
+            responseData.data[i].images.fixed_width_still.url + '"/>'
             $col.append(imageString);
         }
     }
 
     function createButtonStr(animal) {
         return `<button type="button" class="animal-button 
-                slight-right-margin sligh-left-margin slight-top-margin">` + 
-                animal.name + '</button>'
+                slight-right-margin sligh-left-margin slight-top-margin">${animal.name}</button>`
     }
 
     function initAnimals() {
@@ -115,8 +114,8 @@ $(document).ready(function () {
     function getCurrentImgNdx($currentImage) {
         for (var i = 0; i < globalResponseData.data.length; i++) {
             var responseData = globalResponseData.data[i];
-            if ($currentImage.attr('src') === responseData.images.fixed_height_still.url || 
-                $currentImage.attr('src') === responseData.images.fixed_height.url) {
+            if ($currentImage.attr('src') === responseData.images.fixed_width_still.url || 
+                $currentImage.attr('src') === responseData.images.fixed_width.url) {
                 return i;
             }
         }
@@ -136,10 +135,10 @@ $(document).ready(function () {
 
         if (gifIsPlaying($clickedImg)) { 
             // set gif to be non animated gif
-            $clickedImg.attr('src', responseData.images.fixed_height_still.url); 
+            $clickedImg.attr('src', responseData.images.fixed_width_still.url); 
         } else {
             // set gif to be animated gif
-            $clickedImg.attr('src', responseData.images.fixed_height.url);
+            $clickedImg.attr('src', responseData.images.fixed_width.url);
         }
     }
 
@@ -158,18 +157,22 @@ $(document).ready(function () {
     });
 
     $('#submit-button').click(function () {
-        // clear previous search results from screen
-        clearAllResultRows();
-
-        // get url search string value
         var searchString = $('#add-animal-input').val();
-        var animalObj = {name: searchString};
-        // format it the way giphy likes
-        var url = createURL(searchString);
+        
+        if (searchString.length === 0) {
+            alert('You must enter a search value.');
+        } else {
+            // clear previous search results from screen
+            clearAllResultRows();
+            
+            // build url
+            var animalObj = {name: searchString};
+            var url = createURL(searchString);
 
-        // TODO append new animal button to page
-        $('div#gif-buttons').append(createButtonStr(animalObj));
-        doGifSearch(url);
+            // append new animal button to page
+            $('div#gif-buttons').append(createButtonStr(animalObj));
+            doGifSearch(url);
+        }
     });
 
     initAnimals();
