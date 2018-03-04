@@ -164,8 +164,12 @@ $(document).ready(function () {
         // format it the way giphy likes
         var url = createURL(searchString);
 
-        // TODO append new animal button to page
+        var animal = { name: searchString };
 
+        // TODO append new animal button to page
+        $('div#gif-buttons').append(`<button type="button" class="animal-button 
+            slight-right-margin sligh-left-margin slight-top-margin">` + 
+            animal.name + '</button>');
         doGifSearch(url);
     });
 
